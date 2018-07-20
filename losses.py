@@ -24,3 +24,7 @@ import numpy as np
 # L1 Loss
 def l1_loss(y, y_hat):
   return np.sum(np.abs(y - y_hat))
+
+# L2 Loss
+def l2_loss(y, y_hat):
+  return np.sum(np.square(y - y_hat))
