@@ -18,3 +18,9 @@ The specialized losses are:
 """
 
 import numpy as np
+
+## Building block losses ##
+
+# L1 Loss
+def l1_loss(y, y_hat):
+  return np.sum(np.abs(y - y_hat))
