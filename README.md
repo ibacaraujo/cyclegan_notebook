@@ -1,2 +1,3 @@
-# cyclegan_notebook
-CycleGAN notebook from Seedbank
+# cyclegan
+
+First step, the seed.
