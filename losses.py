@@ -29,10 +29,6 @@ def l1_loss(x, y):
 def l2_loss(x, y):
   return np.sum(np.square(x - y))
 
-## Adversarial Losses ##
-
-# TODO
-
 ## Cycle Consistency Loss ##
 def cycle_consistency_loss(G, F, x, y):
   forward_cycle_consistency = np.mean(l1_loss(F(G(x), x)))
