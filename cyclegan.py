@@ -49,3 +49,5 @@ def encoder(x, n_filters=32, k_size=3, normalizer_fn=instance_norm,
                 scope='3',
                 reuse=reuse)
         return h
+
+    # TODO: add lrelu, instance_norm, residual_blocks, transform and decoder
