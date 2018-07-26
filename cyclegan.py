@@ -79,5 +79,16 @@ def residual_block(x, n_channels=128, normalizer_fn=instance_norm,
                 reuse=reuse)
         h = tf.add(x, h)
     return h
-    # TODO: add lrelu, instance_norm, residual_blocks, transform and decoder
+
+def transform(x, img_size=256, reuse=None):
+    h = x
+    if img_size > 256:
+        n_blocks = 9
+    else:
+        n_blocks = 6
+    for block_i in range(n_blocks):
+        with tf.variable_scope('block_{}'.format(block_i), reuse=reuse):
+            h = residual_block(h, reuse=reuse)
+    return h
+    # TODO: add lrelu, instance_norm, transform and decoder
 
