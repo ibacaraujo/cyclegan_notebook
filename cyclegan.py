@@ -90,5 +90,50 @@ def transform(x, img_size=256, reuse=None):
         with tf.variable_scope('block_{}'.format(block_i), reuse=reuse):
             h = residual_block(h, reuse=reuse)
     return h
-    # TODO: add lrelu, instance_norm, transform and decoder
+
+def decoder(x, n_filters=32, k_size=3, normalizer_fn=instance_norm,
+        activation_fn=lrelu, scope=None, reuse=None):
+    with tf.variable_scope(scope or 'decoder', reuse=reuse):
+        h = tfl.conv2d_transpose(
+                inputs=x,
+                num_outputs=n_filters * 2,
+                kernel_size=k_size,
+                stride=2,
+                weights_initializer=tf.truncated_normal_initializer(stddev=0.2),
+                biases_initializer=None,
+                normalizer_fn=normalizer_fn,
+                activation_fn=activation_fn,
+                scope='1',
+                reuse=reuse)
+        h = tfl.conv2d_transpose(
+                inputs=h,
+                num_outputs=n_filters,
+                kernel_size=k_size,
+                stride=2,
+                weights_initializer=tf.truncated_normal_initializer(stddev=0.2),
+                biases_initializer=None,
+                normalizer_fn=normalizer_fn,
+                activation_fn=activation_fn,
+                scope='1',
+                reuse=reuse)
+        h = tf.pad(h, [[0, 0], [k_size, k-size], [k_size, k-size], [0, 0]],
+                "REFLECT")
+        h = tfl.conv2d(
+                inputs=h,
+                num_outputs=3,
+                kernel_size=7,
+                stride=1,
+                weights_initializer=tf.truncated_normal_initializer(stddev=0.02),
+                biases_initializer=None,
+                padding='VALID',
+                normalizer_fn=normalizer_fn,
+                activation_fn=normalizer_fn,
+                activation=tf.nn.tanh,
+                scope='3',
+                reuse=reuse)
+        return h
+
+
+
+    # TODO: add lrelu, instance_norm and decoder
 
